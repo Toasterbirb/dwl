@@ -10,5 +10,10 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 - Finnish keyboard layout
 - Several patches
 
+## Autostart dependencies
+- foot
+- fnott
+
 ## Patches applied
 - [keycodes](https://github.com/djpohly/dwl/wiki/keycodes)
+- [autostart](https://github.com/djpohly/dwl/wiki/autostart)

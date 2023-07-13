@@ -7,6 +7,13 @@ static const float focuscolor[]            = {0.8, 0.86, 0.976, 1.0};
 /* To conform the xdg-protocol, set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1, 0.1, 0.1, 1.0};
 
+/* Autostart */
+static const char *const autostart[] = {
+        "foot", "--server", NULL,
+        NULL /* terminate */
+};
+
+
 /* tagging - tagcount must be no greater than 31 */
 static const int tagcount = 9;
 
@@ -105,7 +112,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[] = { "foot", NULL };
+static const char *termcmd[] = { "footclient", NULL };
 static const char *menucmd[] = { "bemenu-run", "-p", "Run:", "--fn", "mononoki 16", "-B", "2", "--hp", "8", "--tb", "#1f1f28", "--nb", "#1f1f28", "--fb", "#1f1f28", "--ab", "#1f1f28", "--nf", "#dcd7ba", "--tf", "#dcd7ba", "--af", "#dcd7ba", "--hf", "#090618", "--hb", "#76946a", "--bdr", "#76946a", "-l", "10", "--cw", "2", "-c", "-W", "0.5", NULL };
 
 #include "keys.h"

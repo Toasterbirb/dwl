@@ -42,7 +42,7 @@ static const struct xkb_rule_names xkb_rules = {
 	/* example:
 	.options = "ctrl:nocaps",
 	*/
-	.options = "caps:ctrl_modifier",
+	.options = "caps:escape",
 	.layout = "fi"
 };
 

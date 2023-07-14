@@ -8,6 +8,7 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 - Colors
 - Keybindings
 - Finnish keyboard layout
+- Turn the Caps Lock -key into Escape
 - Several patches
 
 ## Autostart dependencies

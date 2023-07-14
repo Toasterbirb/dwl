@@ -14,7 +14,6 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 
 ## Autostart dependencies
 - foot
-- fnott
 
 ## Patches applied
 - [autostart](https://github.com/djpohly/dwl/wiki/autostart)

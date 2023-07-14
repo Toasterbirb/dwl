@@ -2064,6 +2064,8 @@ resizenoapply(Client *c, struct wlr_box geo, int interact)
 void
 run(char *startup_cmd)
 {
+	FILE* startup_file;
+
 	/* Add a Unix socket to the Wayland display. */
 	const char *socket = wl_display_add_socket_auto(dpy);
 	if (!socket)
@@ -2108,6 +2110,16 @@ run(char *startup_cmd)
 
 	/* Run autostart commands */
 	autostartexec();
+
+	/* Create a file to /tmp to show the rest of the system that dwl has
+	 * finished starting up */
+	startup_file = fopen("/tmp/dwl_startup", "w");
+
+	if (startup_file != NULL)
+	{
+		fprintf(startup_file, "hello world");
+		fclose(startup_file);
+	}
 
 	/* Run the Wayland event loop. This does not return until you exit the
 	 * compositor. Starting the backend rigged up all of the necessary event

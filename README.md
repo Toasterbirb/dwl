@@ -10,6 +10,7 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 - Finnish keyboard layout
 - Turn the Caps Lock -key into Escape
 - Alt-tabbing between two tags
+- Create /tmp/dwl_startup after dwl has initialized everything to help with desktop startup scripts
 - Several patches
 
 ## Autostart dependencies

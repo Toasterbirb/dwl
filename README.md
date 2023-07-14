@@ -18,6 +18,7 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 | Key combination | Notification |
 | --------------- | ------------ |
 | Super + C       | Clock        |
+| Super + B       | Battery      |
 
 ## Autostart dependencies
 - foot

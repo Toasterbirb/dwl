@@ -235,6 +235,7 @@ static void arrangelayer(Monitor *m, struct wl_list *list,
 static void arrangelayers(Monitor *m);
 static void autostartexec(void);
 static void axisnotify(struct wl_listener *listener, void *data);
+static void batterynotification(const Arg *arg);
 static void buttonpress(struct wl_listener *listener, void *data);
 static void chvt(const Arg *arg);
 static void checkidleinhibitor(struct wlr_surface *exclude);
@@ -648,6 +649,58 @@ axisnotify(struct wl_listener *listener, void *data)
 	wlr_seat_pointer_notify_axis(seat,
 			event->time_msec, event->orientation, event->delta,
 			event->delta_discrete, event->source);
+}
+
+void
+batterynotification(const Arg *arg)
+{
+	const int buffer_size          = 256;
+	const int filepath_buffer_size = 256;
+	const int message_size         = 256;
+
+	FILE *f;
+	int charge;
+	bool is_charging = false;
+	char buffer[buffer_size];
+	char filepath_buffer[filepath_buffer_size];
+	char battery_message[message_size];
+
+	/* Read the current charge */
+	snprintf(filepath_buffer, filepath_buffer_size, "%s/charge", battery_path);
+	f = fopen(filepath_buffer, "r");
+
+	if (f == NULL) {
+		fprintf(stderr, "Failed to read file %s. This device might not have a battery", filepath_buffer);
+		return;
+	}
+
+	fgets(buffer, buffer_size, f);
+	charge = atoi(buffer);
+	fclose(f);
+
+	/* Read the charging status */
+	snprintf(filepath_buffer, filepath_buffer_size, "%s/status", battery_path);
+	f = fopen(filepath_buffer, "r");
+
+	if (f == NULL) {
+		fprintf(stderr, "Failed to read file %s. This device might not have a battery", filepath_buffer);
+		return;
+	}
+
+	fgets(buffer, buffer_size, f);
+	fclose(f);
+
+	if (!strcmp(buffer, "Charging\n"))
+		is_charging = true;
+
+	/* Create the notification message */
+	if (is_charging)
+		snprintf(battery_message, message_size, "%d%% Charging", charge);
+	else
+		snprintf(battery_message, message_size, "%d%%", charge);
+
+	/* Show the notification */
+	sendnotification(battery_message, "", 10000);
 }
 
 void

@@ -15,5 +15,6 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 - fnott
 
 ## Patches applied
-- [keycodes](https://github.com/djpohly/dwl/wiki/keycodes)
 - [autostart](https://github.com/djpohly/dwl/wiki/autostart)
+- [genericgaps](https://github.com/djpohly/dwl/wiki/genericgaps)
+- [keycodes](https://github.com/djpohly/dwl/wiki/keycodes)

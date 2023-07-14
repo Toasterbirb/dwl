@@ -9,6 +9,7 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 - Keybindings
 - Finnish keyboard layout
 - Turn the Caps Lock -key into Escape
+- Alt-tabbing between two tags
 - Several patches
 
 ## Autostart dependencies

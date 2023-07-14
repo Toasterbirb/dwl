@@ -307,6 +307,7 @@ static void spawn(const Arg *arg);
 static void startdrag(struct wl_listener *listener, void *data);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
+static void tagtab(const Arg *arg);
 static void tile(Monitor *m);
 static void togglefloating(const Arg *arg);
 static void togglefullscreen(const Arg *arg);
@@ -426,6 +427,16 @@ static Atom netatom[NetLast];
 
 static pid_t *autostart_pids;
 static size_t autostart_len;
+
+/* Store the current and previous tag to allow for
+ * alt-tabbing between them */
+void tagtab(const Arg *arg);
+typedef struct {
+	int tags[2];
+	int current_tag;
+} taghistory;
+static taghistory taghist;
+
 
 /* function implementations */
 void
@@ -2402,6 +2413,11 @@ setup(void)
 
 	wlr_scene_set_presentation(scene, wlr_presentation_create(dpy, backend));
 
+	/* setup tag history */
+	taghist.tags[0] = 0;
+	taghist.tags[1] = 0;
+	taghist.current_tag = 0;
+
 #ifdef XWAYLAND
 	/*
 	 * Initialise the XWayland X server.
@@ -2463,6 +2479,24 @@ tagmon(const Arg *arg)
 	Client *sel = focustop(selmon);
 	if (sel)
 		setmon(sel, dirtomon(arg->i), 0);
+}
+
+void
+tagtab(const Arg *arg)
+{
+	/* Switch to the previous tag */
+	Arg new_arg;
+	if (taghist.current_tag == 0)
+	{
+		new_arg.ui = taghist.tags[1];
+		taghist.current_tag = 1;
+	}
+	else
+	{
+		new_arg.ui = taghist.tags[0];
+		taghist.current_tag = 0;
+	}
+	view(&new_arg);
 }
 
 void

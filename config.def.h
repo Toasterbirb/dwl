@@ -147,6 +147,7 @@ static const Key keys[] = {
 	{ MODKEY,                    Key_period,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, Key_comma,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, Key_period,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
+	{ WLR_MODIFIER_ALT,          Key_Tab,       tagtab,             {0} }, /* Alt-Tab between tags */
 	TAGKEYS(                     Key_1,                             0),
 	TAGKEYS(                     Key_2,                             1),
 	TAGKEYS(                     Key_3,                             2),

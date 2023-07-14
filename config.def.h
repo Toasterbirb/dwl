@@ -11,9 +11,23 @@ static const float focuscolor[]            = {0.8, 0.86, 0.976, 1.0};
 /* To conform the xdg-protocol, set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1, 0.1, 0.1, 1.0};
 
+/* Names for the weekdays used for clock notifications
+ * You can translate them to your native language here if it
+ * doesn't happen to be Finnish */
+static const char* weekday_name[7] = {
+	"Maanantai",
+	"Tiistai",
+	"Keskiviikko",
+	"Torstai",
+	"Perjantai",
+	"Lauantai",
+	"Sunnuntai"
+};
+
 /* Autostart */
 static const char *const autostart[] = {
         "foot", "--server", NULL,
+		"dunst", NULL,
         NULL /* terminate */
 };
 
@@ -123,6 +137,7 @@ static const char *menucmd[] = { "bemenu-run", "-p", "Run:", "--fn", "mononoki 1
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
+	{ MODKEY,                    Key_c,          clocknotification, {0} },
 	{ MODKEY,                    Key_d,          spawn,          {.v = menucmd} },
 	{ MODKEY,                    Key_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                    Key_j,          focusstack,     {.i = +1} },

@@ -11,10 +11,19 @@ This is a fork of [dwl](https://github.com/djpohly/dwl) with some arbitrary cust
 - Turn the Caps Lock -key into Escape
 - Alt-tabbing between two tags
 - Create /tmp/dwl_startup after dwl has initialized everything to help with desktop startup scripts
+- Built in notifications to replace the statusbar
 - Several patches
+
+### Notification keybinds
+| Key combination | Notification |
+| --------------- | ------------ |
+| Super + C       | Clock        |
 
 ## Autostart dependencies
 - foot
+
+## Compile time dependencies
+- libnotify
 
 ## Patches applied
 - [autostart](https://github.com/djpohly/dwl/wiki/autostart)

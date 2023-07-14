@@ -3,6 +3,8 @@
  */
 #include <getopt.h>
 #include <libinput.h>
+#include <libnotify/notification.h>
+#include <libnotify/notify.h>
 #include <limits.h>
 #include <linux/input-event-codes.h>
 #include <signal.h>
@@ -239,6 +241,7 @@ static void checkidleinhibitor(struct wlr_surface *exclude);
 static void cleanup(void);
 static void cleanupkeyboard(struct wl_listener *listener, void *data);
 static void cleanupmon(struct wl_listener *listener, void *data);
+static void clocknotification(const Arg *arg);
 static void closemon(Monitor *m);
 static void commitlayersurfacenotify(struct wl_listener *listener, void *data);
 static void commitnotify(struct wl_listener *listener, void *data);
@@ -294,6 +297,7 @@ static void requeststartdrag(struct wl_listener *listener, void *data);
 static void resizeapply(Client *c, struct wlr_box geo, int interact);
 static void resizenoapply(Client *c, struct wlr_box geo, int interact);
 static void run(char *startup_cmd);
+static void sendnotification(char *title, char *message, int timeout);
 static void setcursor(struct wl_listener *listener, void *data);
 static void setfloating(Client *c, int floating);
 static void setfullscreen(Client *c, int fullscreen);
@@ -794,6 +798,24 @@ cleanupmon(struct wl_listener *listener, void *data)
 
 	closemon(m);
 	free(m);
+}
+
+void clocknotification(const Arg *arg)
+{
+	time_t cur_time;
+	struct tm *time_info;
+	const int max_message_len = 256;
+	char time_message[max_message_len];
+
+	/* Get the current time */
+	time(&cur_time);
+	time_info = localtime(&cur_time);
+
+	/* Build the time string */
+	snprintf(time_message, max_message_len, "%d:%d %d.%d.%d %s", time_info->tm_hour, time_info->tm_min, time_info->tm_mday, time_info->tm_mon + 1, time_info->tm_year + 1900, weekday_name[time_info->tm_wday]);
+
+	/* Show the notification */
+	sendnotification(time_message, "", 10000);
 }
 
 void
@@ -2129,6 +2151,22 @@ run(char *startup_cmd)
 }
 
 void
+sendnotification(char *title, char *message, int timeout)
+{
+	NotifyNotification* notif;
+
+	/* Setup the notification */
+	notif = notify_notification_new(title, message, 0);
+	notify_notification_set_timeout(notif, timeout);
+
+	/* Show the notification */
+	if (!notify_notification_show(notif, 0))
+	{
+		fprintf(stderr, "Failed show a notification! Make sure that a notification daemon is running\n");
+	}
+}
+
+void
 setcursor(struct wl_listener *listener, void *data)
 {
 	/* This event is raised by the seat when a client provides a cursor image */
@@ -2429,6 +2467,9 @@ setup(void)
 	taghist.tags[0] = 0;
 	taghist.tags[1] = 0;
 	taghist.current_tag = 0;
+
+	/* init libnotify */
+	notify_init("dwl");
 
 #ifdef XWAYLAND
 	/*

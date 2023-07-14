@@ -10,6 +10,7 @@ static const float bordercolor[]           = {0.1, 0.1, 0.14, 1.0};
 static const float focuscolor[]            = {0.8, 0.86, 0.976, 1.0};
 /* To conform the xdg-protocol, set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1, 0.1, 0.1, 1.0};
+static const int notification_timeout      = 10000; /* Timeout duration for notifications measured in ms */
 static const char* battery_path            = "/sys/class/power_supply/BAT1"; /* Path to the battery information (if one exists)
                                                                                 Set this variable to empty string if you don't have
 																				a battery in your computer */

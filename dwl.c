@@ -666,7 +666,7 @@ batterynotification(const Arg *arg)
 	char battery_message[message_size];
 
 	/* Read the current charge */
-	snprintf(filepath_buffer, filepath_buffer_size, "%s/charge", battery_path);
+	snprintf(filepath_buffer, filepath_buffer_size, "%s/capacity", battery_path);
 	f = fopen(filepath_buffer, "r");
 
 	if (f == NULL) {
@@ -700,7 +700,7 @@ batterynotification(const Arg *arg)
 		snprintf(battery_message, message_size, "%d%%", charge);
 
 	/* Show the notification */
-	sendnotification(battery_message, "", 10000);
+	sendnotification(battery_message, "", notification_timeout);
 }
 
 void
@@ -868,7 +868,7 @@ void clocknotification(const Arg *arg)
 	snprintf(time_message, max_message_len, "%d:%d %d.%d.%d %s", time_info->tm_hour, time_info->tm_min, time_info->tm_mday, time_info->tm_mon + 1, time_info->tm_year + 1900, weekday_name[time_info->tm_wday]);
 
 	/* Show the notification */
-	sendnotification(time_message, "", 10000);
+	sendnotification(time_message, "", notification_timeout);
 }
 
 void

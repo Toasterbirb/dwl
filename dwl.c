@@ -857,6 +857,8 @@ void clocknotification(const Arg *arg)
 {
 	time_t cur_time;
 	struct tm *time_info;
+	const int formatted_minutes_len = 16;
+	char formatted_minutes[formatted_minutes_len]; /* Minutes need some extra formatting */
 	const int max_message_len = 256;
 	char time_message[max_message_len];
 
@@ -864,8 +866,17 @@ void clocknotification(const Arg *arg)
 	time(&cur_time);
 	time_info = localtime(&cur_time);
 
+	/* Format the time properly to prevent cases like 17:2
+	 * and print 17:02 instead */
+	if (time_info->tm_min > 9) {
+		snprintf(formatted_minutes, formatted_minutes_len, "%d", time_info->tm_min);
+	} else {
+		snprintf(formatted_minutes, formatted_minutes_len, "0%d", time_info->tm_min);
+	}
+
+
 	/* Build the time string */
-	snprintf(time_message, max_message_len, "%d:%d %d.%d.%d %s", time_info->tm_hour, time_info->tm_min, time_info->tm_mday, time_info->tm_mon + 1, time_info->tm_year + 1900, weekday_name[time_info->tm_wday]);
+	snprintf(time_message, max_message_len, "%d:%s %d.%d.%d %s", time_info->tm_hour, formatted_minutes, time_info->tm_mday, time_info->tm_mon + 1, time_info->tm_year + 1900, weekday_name[time_info->tm_wday]);
 
 	/* Show the notification */
 	sendnotification(time_message, "", notification_timeout);
